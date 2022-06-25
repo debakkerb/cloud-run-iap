@@ -28,10 +28,19 @@ module "project" {
   ]
 }
 
+resource "google_service_account" "cloud_run_identity" {
+  project      = module.project.project_id
+  account_id   = "cr-demo-id"
+  display_name = "Cloud Run Demo App Identity"
+}
+
 resource "google_artifact_registry_repository" "default" {
+  provider = google-beta
+
   project       = module.project.project_id
   format        = "DOCKER"
   repository_id = var.repository_id
+  location      = var.region
   description   = "Artifact registry, managed via Terraform."
 }
 

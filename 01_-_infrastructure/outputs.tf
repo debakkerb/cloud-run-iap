@@ -13,3 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+output "project_id" {
+  value = module.project.project_id
+}
+
+output "project_number" {
+  value = module.project.number
+}
