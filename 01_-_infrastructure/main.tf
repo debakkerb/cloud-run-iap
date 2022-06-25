@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 
+locals {
+  full_image_name = "${var.region}-docker.pkg.dev/${module.project.project_id}/${google_artifact_registry_repository.default.name}/cr-iap-demo"
+}
+
 module "project" {
   source = "./modules/project"
 
@@ -43,4 +47,3 @@ resource "google_artifact_registry_repository" "default" {
   location      = var.region
   description   = "Artifact registry, managed via Terraform."
 }
-

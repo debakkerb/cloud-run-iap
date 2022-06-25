@@ -21,3 +21,7 @@ output "project_id" {
 output "project_number" {
   value = module.project.number
 }
+
+output "full_image_prefix" {
+  value = local.full_image_name
+}
