@@ -17,3 +17,7 @@
 output "service_url" {
   value = google_cloud_run_service.cr_iap_demo.status[0].url
 }
+
+output "load_balancer_address" {
+  value = google_compute_global_address.external_lb_address.address
+}

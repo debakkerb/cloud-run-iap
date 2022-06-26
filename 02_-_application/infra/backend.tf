@@ -21,3 +21,11 @@ data "terraform_remote_state" "infrastructure_state" {
     path = "../../01_-_infrastructure/terraform.tfstate"
   }
 }
+
+provider "google" {
+  region = local.region
+}
+
+provider "google-beta" {
+  region = local.region
+}
