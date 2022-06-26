@@ -48,3 +48,10 @@ resource "google_cloud_run_service_iam_policy" "allow_no_auth_policy" {
   policy_data = data.google_iam_policy.allow_no_auth.policy_data
   service     = google_cloud_run_service.cr_iap_demo.name
 }
+
+resource "google_iap_web_iam_member" "cloud_run_access" {
+  for_each = var.cloud_run_service_access
+  project  = local.project_id
+  member   = each.value
+  role     = "roles/iap.httpsResourceAccessor"
+}

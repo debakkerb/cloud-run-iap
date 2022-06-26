@@ -56,6 +56,6 @@ variable "iap_client_display_name" {
 
 variable "cloud_run_service_access" {
   description = "List of identities that can access the Cloud Run service. Should be prefixed with the type (user:, serviceAccount:, group:)"
-  type        = list(string)
+  type        = set(string)
   default     = []
 }
