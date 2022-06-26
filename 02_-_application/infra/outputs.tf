@@ -21,3 +21,7 @@ output "service_url" {
 output "load_balancer_address" {
   value = google_compute_global_address.external_lb_address.address
 }
+
+output "check_ssl_cert_status" {
+  value = "gcloud compute ssl-certificates describe ${google_compute_managed_ssl_certificate.external_lb_managed_ssl_cert.name} --project ${local.project_id}"
+}

@@ -27,6 +27,12 @@ resource "google_cloud_run_service" "cr_iap_demo" {
       }
     }
   }
+
+  metadata {
+    annotations = {
+      "run.googleapis.com/ingress" = "internal-and-cloud-load-balancing"
+    }
+  }
 }
 
 data "google_iam_policy" "allow_no_auth" {

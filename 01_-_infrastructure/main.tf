@@ -29,7 +29,8 @@ module "project" {
     "run.googleapis.com",
     "cloudbuild.googleapis.com",
     "artifactregistry.googleapis.com",
-    "sourcerepo.googleapis.com"
+    "sourcerepo.googleapis.com",
+    "iap.googleapis.com"
   ]
 }
 
