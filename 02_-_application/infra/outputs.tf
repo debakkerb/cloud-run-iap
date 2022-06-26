@@ -13,3 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+output "service_url" {
+  value = google_cloud_run_service.cr_iap_demo.status[0].url
+}

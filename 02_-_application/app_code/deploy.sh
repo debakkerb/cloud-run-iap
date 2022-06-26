@@ -15,7 +15,7 @@
 # limitations under the License.
 
 echo "Building Docker image ..."
-docker build . --platform linux/amd64 -t europe-west1-docker.pkg.dev/cloud-run-demo-8632/cloud-run-demo/cr-iap-demo:latest && docker push europe-west1-docker.pkg.dev/cloud-run-demo-8632/cloud-run-demo/cr-iap-demo:latest
+docker build . --platform linux/amd64 -t europ-west1-docker.pkg.dev/cloud-run-demo-8632/cloud-run-demo/cr-iap-demo:latest && docker push europe-west1-docker.pkg.dev/cloud-run-demo-8632/cloud-run-demo/cr-iap-demo:latest
 
 # echo "Deploying application ..."
 # gcloud run deploy cr-iap-demo --image europe-west1-docker.pkg.dev/cloud-run-demo-8632/cloud-run-demo/cr-iap-demo:latest --project cloud-run-demo-8632 --service-account cr-demo-id@cloud-run-demo-8632.iam.gserviceaccount.com --region europe-west1 --allow-unauthenticated

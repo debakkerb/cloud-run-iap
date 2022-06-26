@@ -14,23 +14,9 @@
  * limitations under the License.
  */
 
-output "full_image_name" {
-  value = local.full_image_name
+locals {
+  project_id                = data.terraform_remote_state.infrastructure_state.outputs.project_id
+  region                    = data.terraform_remote_state.infrastructure_state.outputs.region
+  full_image_name           = data.terraform_remote_state.infrastructure_state.outputs.full_image_name
+  cloud_run_service_account = data.terraform_remote_state.infrastructure_state.outputs.cloud_run_identity
 }
-
-output "project_id" {
-  value = module.project.project_id
-}
-
-output "project_number" {
-  value = module.project.number
-}
-
-output "region" {
-  value = var.region
-}
-
-output "cloud_run_identity" {
-  value = google_service_account.cloud_run_identity.email
-}
-

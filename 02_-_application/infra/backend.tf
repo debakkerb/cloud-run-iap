@@ -14,23 +14,10 @@
  * limitations under the License.
  */
 
-output "full_image_name" {
-  value = local.full_image_name
-}
+data "terraform_remote_state" "infrastructure_state" {
+  backend = "local"
 
-output "project_id" {
-  value = module.project.project_id
+  config = {
+    path = "../../01_-_infrastructure/terraform.tfstate"
+  }
 }
-
-output "project_number" {
-  value = module.project.number
-}
-
-output "region" {
-  value = var.region
-}
-
-output "cloud_run_identity" {
-  value = google_service_account.cloud_run_identity.email
-}
-
