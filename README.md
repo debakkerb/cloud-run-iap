@@ -30,7 +30,6 @@ cd 01_-_infrastructure
 cat <<EOT >> terraform.tfvars
 billing_account_id = "ABCD-ABCD-ABCD-ABCD"
 parent = "folders/123456789"
-domain = "test.domain.com"
 EOT
 
 # Initialize Terraform configuration
@@ -53,6 +52,12 @@ cd ../02_-_application/app_code
 
 # Create the infrastructure
 cd ../infra
+
+# Create terraform.tfvars file, with the necessary variables. Replace the temp variables with the actual variables.
+cat <<EOT >> terraform.tfvars
+domain = "test.domain.com
+EOT
+
 terraform init -reconfigure -upgrade
 terraform apply -auto-approve
 ```
