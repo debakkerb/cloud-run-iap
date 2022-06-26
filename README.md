@@ -69,4 +69,4 @@ $(terraform show -json | jq -r .values.outputs.check_ssl_cert_status.value)
 ```
 
 ### Add IAP Protection
-Unfortunately, the next steps can't be completed through IaC.  Please follow the instructions listed [https://cloud.google.com/iap/docs/enabling-cloud-run#console](here) to complete IAP protection. 
+Unfortunately, the next steps can't be completed through IaC.  Please follow the instructions listed [here](https://cloud.google.com/iap/docs/enabling-cloud-run#console) to complete IAP protection. 
