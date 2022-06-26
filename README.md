@@ -74,5 +74,3 @@ $(terraform show -json | jq -r .values.outputs.check_ssl_cert_status.value)
 
 Additionally, you also have to update the DNS records on your domain, to link the subdomain, as configured in the `domain`-variable, to the external IP address of the Load Balancer.
 
-### Add IAP Protection
-Unfortunately, the next steps can't be completed through IaC.  Please follow the instructions listed [here](https://cloud.google.com/iap/docs/enabling-cloud-run#console) to complete IAP protection. 
