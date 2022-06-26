@@ -50,7 +50,7 @@ resource "google_artifact_registry_repository" "default" {
 }
 
 resource "local_file" "deploy_script" {
-  filename = "../02_-_application/deploy.sh"
+  filename = "../02_-_application/app_code/deploy.sh"
   content = templatefile("${path.module}/templates/deploy_app.sh.tpl", {
     PROJECT_ID      = module.project.project_id
     SERVICE_ACCOUNT = google_service_account.cloud_run_identity.email

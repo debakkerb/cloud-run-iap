@@ -19,6 +19,11 @@ variable "billing_account_id" {
   type        = string
 }
 
+variable "domain" {
+  description = "Domains for the SSL certificate."
+  type        = string
+}
+
 variable "parent" {
   description = "Parent of the project, should be set in the form of organizations/ORG_ID or folders/FOLDER_ID"
   type        = string

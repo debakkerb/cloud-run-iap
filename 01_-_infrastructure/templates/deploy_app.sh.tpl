@@ -17,8 +17,8 @@
 echo "Building Docker image ..."
 docker build . --platform linux/amd64 -t ${IMAGE_FULL_NAME}:latest && docker push ${IMAGE_FULL_NAME}:latest
 
-echo "Deploying application ..."
-gcloud run deploy cr-iap-demo --image ${IMAGE_FULL_NAME}:latest --project ${PROJECT_ID} --service-account ${SERVICE_ACCOUNT} --region ${REGION} --allow-unauthenticated
+# echo "Deploying application ..."
+# gcloud run deploy cr-iap-demo --image ${IMAGE_FULL_NAME}:latest --project ${PROJECT_ID} --service-account ${SERVICE_ACCOUNT} --region ${REGION} --allow-unauthenticated
 
-echo "Add allUsers to the IAM policy."
-gcloud run services add-iam-policy-binding cr-iap-demo --region ${REGION} --member allUsers --role roles/run.invoker --project ${PROJECT_ID}
+# echo "Add allUsers to the IAM policy."
+# gcloud run services add-iam-policy-binding cr-iap-demo --region ${REGION} --member allUsers --role roles/run.invoker --project ${PROJECT_ID}
