@@ -19,11 +19,6 @@ variable "billing_account_id" {
   type        = string
 }
 
-variable "domain" {
-  description = "Domains for the SSL certificate."
-  type        = string
-}
-
 variable "parent" {
   description = "Parent of the project, should be set in the form of organizations/ORG_ID or folders/FOLDER_ID"
   type        = string
@@ -51,5 +46,11 @@ variable "zone" {
   description = "Default zone for all resources."
   type        = string
   default     = "europe-west1-b"
+}
+
+variable "disable_org_policy_domain_restricted_sharing" {
+  description = "If the org policy for domain restricted sharing is enforced, disable it for this project.  Cloud Run requires the Invoker role to be assigned to allUsers, as all requests are coming in from the HTTPS Load Balancer."
+  type        = bool
+  default     = false
 }
 

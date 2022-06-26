@@ -18,3 +18,38 @@ variable "domain" {
   description = "Domain for the SSL certificate."
   type        = string
 }
+
+variable "load_balancer_prefix" {
+  description = "Prefix that will be added to all HTTPS LB resources."
+  type        = string
+  default     = "lb"
+}
+
+variable "load_balancer_address_name" {
+  description = "Name for the external address of the load balancer."
+  type        = string
+  default     = "cr-iap-lb-address"
+}
+
+variable "load_balancer_managed_cert_name" {
+  description = "Name for the managed certificate."
+  type        = string
+  default     = "cr-iap-ssl-certificate"
+}
+
+variable "brand_application_title" {
+  description = "Application title linked to the brand of the IAP consent screen."
+  type        = string
+  default     = "cr-iap-demo"
+}
+
+variable "brand_support_email" {
+  description = "Supprt email address for the IAP consent screen"
+  type        = string
+}
+
+variable "iap_client_display_name" {
+  description = "Display name for the IAP client consent screen."
+  type        = string
+  default     = "Cloud Run IAP Demo"
+}

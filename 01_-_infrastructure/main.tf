@@ -16,6 +16,14 @@
 
 locals {
   full_image_name = "${var.region}-docker.pkg.dev/${module.project.project_id}/${google_artifact_registry_repository.default.name}/cr-iap-demo"
+  org_policy = var.disable_org_policy_domain_restricted_sharing ? {
+    "constraints/iam.allowedPolicyMemberDomains" = {
+      inherit_from_parent = null
+      suggested_value     = null
+      status              = true
+      values              = null
+    }
+  } : {}
 }
 
 module "project" {
@@ -24,6 +32,7 @@ module "project" {
   project_name       = var.project_name
   billing_account_id = var.billing_account_id
   parent             = var.parent
+  org_policy_list    = local.org_policy
 
   project_apis = [
     "run.googleapis.com",
@@ -52,6 +61,7 @@ resource "google_artifact_registry_repository" "default" {
 
 resource "local_file" "deploy_script" {
   filename = "../02_-_application/app_code/deploy.sh"
+
   content = templatefile("${path.module}/templates/deploy_app.sh.tpl", {
     PROJECT_ID      = module.project.project_id
     SERVICE_ACCOUNT = google_service_account.cloud_run_identity.email
