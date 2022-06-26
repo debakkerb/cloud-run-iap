@@ -28,7 +28,8 @@ module "project" {
   project_apis = [
     "run.googleapis.com",
     "cloudbuild.googleapis.com",
-    "artifactregistry.googleapis.com"
+    "artifactregistry.googleapis.com",
+    "sourcerepo.googleapis.com"
   ]
 }
 

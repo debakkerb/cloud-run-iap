@@ -22,6 +22,6 @@ output "project_number" {
   value = module.project.number
 }
 
-output "full_image_prefix" {
+output "full_image_name" {
   value = local.full_image_name
 }

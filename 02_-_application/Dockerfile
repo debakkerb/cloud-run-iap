@@ -20,7 +20,7 @@ COPY go.mod ./
 
 RUN go mod download
 
-ADD . ./
+ADD .. ./
 
 RUN go build -o ./run_demo
 
