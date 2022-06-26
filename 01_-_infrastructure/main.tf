@@ -48,3 +48,13 @@ resource "google_artifact_registry_repository" "default" {
   location      = var.region
   description   = "Artifact registry, managed via Terraform."
 }
+
+resource "local_file" "deploy_script" {
+  filename = "../02_-_application/deploy.sh"
+  content = templatefile("${path.module}/templates/deploy_app.sh.tpl", {
+    PROJECT_ID      = module.project.project_id
+    SERVICE_ACCOUNT = google_service_account.cloud_run_identity.email
+    REGION          = var.region
+    IMAGE_FULL_NAME = local.full_image_name
+  })
+}

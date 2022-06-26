@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # Copyright 2022 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,23 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM golang:1.18.1-buster AS build
+echo "Building Docker image ..."
+docker build . --platform linux/amd64 -t ${IMAGE_FULL_NAME}:latest && docker push ${IMAGE_FULL_NAME}:latest
 
-WORKDIR /app
+echo "Deploying application ..."
+gcloud run deploy cr-iap-demo --image ${IMAGE_FULL_NAME}:latest --project ${PROJECT_ID} --service-account ${SERVICE_ACCOUNT} --region ${REGION} --allow-unauthenticated
 
-COPY go.* ./
-
-RUN go mod download
-
-ADD . ./
-
-RUN go build -v -o server
-
-FROM debian:buster-slim
-RUN set -x && apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
-    ca-certificates && \
-    rm -rf /var/lib/apt/lists/*
-
-COPY --from=build /app/server /app/server
-
-CMD ["/app/server"]
+echo "Add allUsers to the IAM policy."
+gcloud run services add-iam-policy-binding cr-iap-demo --region ${REGION} --member allUsers --role roles/run.invoker --project ${PROJECT_ID}
