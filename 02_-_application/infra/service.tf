@@ -17,7 +17,7 @@
 resource "google_cloud_run_service" "cr_iap_demo" {
   project  = local.project_id
   location = local.region
-  name     = "cr-iap-demo"
+  name     = var.service_name
 
   template {
     spec {

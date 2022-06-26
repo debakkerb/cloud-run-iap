@@ -59,3 +59,9 @@ variable "cloud_run_service_access" {
   type        = set(string)
   default     = []
 }
+
+variable "service_name" {
+  description = "Service name for the Cloud Run service."
+  type        = string
+  default     = "cr-iap-demo"
+}
