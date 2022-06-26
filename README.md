@@ -39,6 +39,10 @@ terraform init -reconfigure -upgrade
 terraform apply -auto-approve
 ```
 
+**NOTE**
+
+If your Google Cloud organization has the organization policy enabled to restrict domain sharing, set `disable_org_policy_domain_restricted_sharing`.  This will disable that organization policy.  Unfortunately it's required to grant the Invoker role to `allUsers`, as requests are coming in from the Load Balancer, as opposed to coming in directly from individual users.  IAP will take care of authenticating and authorizing individual requests.
+
 This should create the necessare Google Cloud infrastructure and a shell script that can be used to build and deploy the Docker image.  Of course, there is nothing stopping you from either deploying directly from the Git repository and/or using build packs instead of manually writing your Dockerfile. 
 
 ### Application
@@ -67,6 +71,8 @@ It will take a while to expose the domain on the SSL certificate that is exposed
 ```shell
 $(terraform show -json | jq -r .values.outputs.check_ssl_cert_status.value)
 ```
+
+Additionally, you also have to update the DNS records on your domain, to link the subdomain, as configured in the `domain`-variable, to the external IP address of the Load Balancer.
 
 ### Add IAP Protection
 Unfortunately, the next steps can't be completed through IaC.  Please follow the instructions listed [here](https://cloud.google.com/iap/docs/enabling-cloud-run#console) to complete IAP protection. 
