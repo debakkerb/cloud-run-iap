@@ -65,3 +65,15 @@ variable "service_name" {
   type        = string
   default     = "cr-iap-demo"
 }
+
+variable "iap_secret_manager_secret_id" {
+  description = "ID of the secret to store the client secret."
+  type        = string
+  default     = "cr-iap-secret-id"
+}
+
+variable "iap_secret_manager_client_id" {
+  description = "Name of the secret, in secret manager, that stores the Client ID."
+  type        = string
+  default     = "cr-iap-client-name"
+}

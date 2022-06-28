@@ -23,6 +23,9 @@ import (
 	"os"
 )
 
+var CLIENT_ID = os.Getenv("")
+var SECRET_ID = os.Getenv("")
+
 func main() {
 	log.Print("Starting server ...")
 	http.HandleFunc("/", handler)
@@ -32,6 +35,10 @@ func main() {
 		port = "8080"
 		log.Printf("Defaulting to port %s", port)
 	}
+
+	fmt.Println("=======================================================")
+	fmt.Printf("Client ID: %s\n", CLIENT_ID)
+	fmt.Println("=======================================================")
 
 	log.Printf("Listening on port %s.", port)
 	if err := http.ListenAndServe(":"+port, nil); err != nil {

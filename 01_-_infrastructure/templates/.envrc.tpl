@@ -14,5 +14,4 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-echo "Building Docker image ..."
-docker build . --platform linux/amd64 -t ${IMAGE_FULL_NAME}:latest && docker push ${IMAGE_FULL_NAME}:latest
+IMAGE_NAME=${IMAGE_FULL_NAME}

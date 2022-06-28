@@ -39,7 +39,8 @@ module "project" {
     "cloudbuild.googleapis.com",
     "artifactregistry.googleapis.com",
     "sourcerepo.googleapis.com",
-    "iap.googleapis.com"
+    "iap.googleapis.com",
+    "secretmanager.googleapis.com"
   ]
 }
 
@@ -60,9 +61,9 @@ resource "google_artifact_registry_repository" "default" {
 }
 
 resource "local_file" "deploy_script" {
-  filename = "../02_-_application/app_code/deploy.sh"
+  filename = "../02_-_application/app_code/.envrc"
 
-  content = templatefile("${path.module}/templates/deploy_app.sh.tpl", {
+  content = templatefile("${path.module}/templates/.envrc.tpl", {
     PROJECT_ID      = module.project.project_id
     SERVICE_ACCOUNT = google_service_account.cloud_run_identity.email
     REGION          = var.region
