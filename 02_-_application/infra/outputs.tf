@@ -25,3 +25,7 @@ output "load_balancer_address" {
 output "check_ssl_cert_status" {
   value = "gcloud compute ssl-certificates describe ${google_compute_managed_ssl_certificate.external_lb_managed_ssl_cert.name} --project ${local.project_id}"
 }
+
+output "image_tag" {
+  value = local.image_tag
+}

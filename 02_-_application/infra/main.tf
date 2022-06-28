@@ -16,6 +16,7 @@
 
 locals {
   project_id                = data.terraform_remote_state.infrastructure_state.outputs.project_id
+  project_number            = data.terraform_remote_state.infrastructure_state.outputs.project_number
   region                    = data.terraform_remote_state.infrastructure_state.outputs.region
   full_image_name           = data.terraform_remote_state.infrastructure_state.outputs.full_image_name
   image_tag                 = data.external.git_tag.result.tag
