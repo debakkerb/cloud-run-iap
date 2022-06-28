@@ -18,5 +18,10 @@ locals {
   project_id                = data.terraform_remote_state.infrastructure_state.outputs.project_id
   region                    = data.terraform_remote_state.infrastructure_state.outputs.region
   full_image_name           = data.terraform_remote_state.infrastructure_state.outputs.full_image_name
+  image_tag                 = data.external.git_tag.result.tag
   cloud_run_service_account = data.terraform_remote_state.infrastructure_state.outputs.cloud_run_identity
+}
+
+data "external" "git_tag" {
+  program = ["bash", "${path.module}/img-tag.sh"]
 }

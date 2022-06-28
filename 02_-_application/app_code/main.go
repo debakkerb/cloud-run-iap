@@ -23,8 +23,8 @@ import (
 	"os"
 )
 
-var CLIENT_ID = os.Getenv("")
-var SECRET_ID = os.Getenv("")
+var clientId = os.Getenv("CLIENT_ID")
+var secretId = os.Getenv("CLIENT_SECRET")
 
 func main() {
 	log.Print("Starting server ...")
@@ -37,7 +37,7 @@ func main() {
 	}
 
 	fmt.Println("=======================================================")
-	fmt.Printf("Client ID: %s\n", CLIENT_ID)
+	fmt.Printf("Client ID: %s\n", clientId)
 	fmt.Println("=======================================================")
 
 	log.Printf("Listening on port %s.", port)

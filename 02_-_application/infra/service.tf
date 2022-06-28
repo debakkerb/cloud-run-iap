@@ -14,10 +14,6 @@
  * limitations under the License.
  */
 
-output "test" {
-  value = google_secret_manager_secret.iap_secret_manager_client_id.secret_id
-}
-
 resource "google_cloud_run_service" "cr_iap_demo" {
   project  = local.project_id
   location = local.region
@@ -25,12 +21,11 @@ resource "google_cloud_run_service" "cr_iap_demo" {
 
   autogenerate_revision_name = true
 
-
   template {
     spec {
       service_account_name = local.cloud_run_service_account
       containers {
-        image = local.full_image_name
+        image = "${local.full_image_name}:${local.image_tag}"
         env {
           name = "CLIENT_ID"
           value_from {

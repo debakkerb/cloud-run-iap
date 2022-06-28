@@ -25,20 +25,23 @@ help:
 # ==========================================================================================
 # BUILD
 # ==========================================================================================
+
 current_time := $(shell date -u +"%Y-%m-%dT%H:%M:%SZ")
 git_description := $(shell git describe --always --dirty)
 linker_flags = '-s -X main.buildTime=$(current_time) -X main.version=$(git_description)'
 
 ## build/app: build the application
 .PHONY: build/app
+build/app:
 	@echo 'Building app ...'
 	go build -ldflags=${linker_flags} -o=./bin/app ./
 	GOOS=linux GOARCH=amd64 go build -ldflags=${linker_flags} -o=./bin/linux_amd64/app ./
 
 ## build/docker: Build the application in a docker container
-.PHONY: build/docker
+.PHONY: build/image
+build/image:
 	@echo 'Building the application container ...'
-	docker build --platform linux/amd64 -t ${}:${git_description} ./ && docker push ${IMAGE_NAME}:${git_description}
+	docker build --platform linux/amd64 -t ${IMAGE_NAME}:${git_description} ./ && docker push ${IMAGE_NAME}:${git_description}
 	@echo 'New container image created, with tag ${git_description}'
 
 
