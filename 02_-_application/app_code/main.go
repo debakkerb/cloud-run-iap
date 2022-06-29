@@ -17,9 +17,7 @@ package main
  */
 
 import (
-	"context"
 	"fmt"
-	"google.golang.org/api/idtoken"
 	"log"
 	"net/http"
 	"os"
@@ -47,27 +45,22 @@ func main() {
 
 }
 
-func validateJWT(iapJWT string) error {
-	ctx := context.Background()
-	audience := fmt.Sprintf("/projects/%s/global/backendServices/%s", projectNumber, projectId)
+func validateJWT(r *http.Request) error {
+	jwtAssertion := r.Header.Get("x-goog-iap-jwt-assertion")
+	userId := r.Header.Get("x-goog-authenticated-user-id")
+	email := r.Header.Get("x-goog-authenticated-user-email")
 
-	fmt.Println("===============================================")
-	fmt.Println(iapJWT)
-	fmt.Println("===============================================")
-
-	payload, err := idtoken.Validate(ctx, iapJWT, audience)
-	if err != nil {
-		return err
-	}
-
-	fmt.Println(payload)
+	fmt.Println("=================================================")
+	fmt.Println(jwtAssertion)
+	fmt.Println(userId)
+	fmt.Println(email)
+	fmt.Println("=================================================")
 
 	return nil
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	jwtAssertion := r.Header.Get("x-goog-iap-jwt-assertion")
-	validateJWT(jwtAssertion)
+	validateJWT(r)
 
 	name := os.Getenv("NAME")
 	if name == "" {

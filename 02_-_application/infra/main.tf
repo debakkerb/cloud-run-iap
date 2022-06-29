@@ -24,5 +24,5 @@ locals {
 }
 
 data "external" "git_tag" {
-  program = ["bash", "${path.module}/img-tag.sh"]
+  program = ["bash", "${path.module}/scripts/img-tag.sh"]
 }
