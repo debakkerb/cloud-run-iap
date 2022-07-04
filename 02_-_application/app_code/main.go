@@ -17,16 +17,18 @@ package main
  */
 
 import (
+	compute "cloud.google.com/go/compute/apiv1"
+	"cloud.google.com/go/compute/metadata"
+	"google.golang.org/api/idtoken"
+	computepb "google.golang.org/genproto/googleapis/cloud/compute/v1"
+	"strconv"
+
+	"context"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
 )
-
-var clientId = os.Getenv("CLIENT_ID")
-var secretId = os.Getenv("CLIENT_SECRET")
-var projectId = os.Getenv("PROJECT_ID")
-var projectNumber = os.Getenv("PROJECT_NUMBER")
 
 func main() {
 	log.Print("Starting server ...")
@@ -45,27 +47,85 @@ func main() {
 
 }
 
-func validateJWT(r *http.Request) error {
-	jwtAssertion := r.Header.Get("x-goog-iap-jwt-assertion")
-	userId := r.Header.Get("x-goog-authenticated-user-id")
-	email := r.Header.Get("x-goog-authenticated-user-email")
-
-	fmt.Println("=================================================")
-	fmt.Println(jwtAssertion)
-	fmt.Println(userId)
-	fmt.Println(email)
-	fmt.Println("=================================================")
-
-	return nil
-}
-
 func handler(w http.ResponseWriter, r *http.Request) {
-	validateJWT(r)
 
-	name := os.Getenv("NAME")
-	if name == "" {
-		name = "World"
+	ctx := context.Background()
+	projectInformation, err := getProjectInformation(&ctx)
+	if err != nil {
+		log.Fatal(err)
 	}
 
-	fmt.Fprintf(w, "Hello %s!\n", name)
+	serviceId, err := getServiceId(&ctx, projectInformation.ProjectID)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	payload, err := validateJWT(r, &ctx, serviceId, projectInformation)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	email := payload.Claims["email"]
+	identity := payload.Claims["sub"]
+
+	fmt.Fprintf(w, "Welcome %s!\n"+
+		"Unique identifier: %s\n", email, identity)
+}
+
+func validateJWT(r *http.Request, ctx *context.Context, backendServiceId uint64, projectInformation *ProjectInformation) (*idtoken.Payload, error) {
+	jwtAssertion := r.Header.Get("x-goog-iap-jwt-assertion")
+
+	audience := fmt.Sprintf("/projects/%s/global/backendServices/%s", projectInformation.ProjectNumber, strconv.FormatUint(backendServiceId, 10))
+	payload, err := idtoken.Validate(*ctx, jwtAssertion, audience)
+
+	if err != nil {
+		fmt.Printf("Error while validating payload: %v.\n", err)
+		return nil, err
+	}
+
+	return payload, nil
+}
+
+func getServiceId(ctx *context.Context, projectId string) (uint64, error) {
+	c, err := compute.NewBackendServicesRESTClient(*ctx)
+	if err != nil {
+		log.Printf("Error while retrieving the compute client: %v", err)
+		return 0, err
+	}
+	defer c.Close()
+
+	req := &computepb.GetBackendServiceRequest{
+		Project:        projectId,
+		BackendService: "lb-managed-backend",
+	}
+
+	resp, err := c.Get(*ctx, req)
+	if err != nil {
+		log.Printf("Error while executing the request to get the backend services: %v", err)
+		return 0, err
+	}
+
+	return *resp.Id, nil
+}
+
+type ProjectInformation struct {
+	ProjectID     string
+	ProjectNumber string
+}
+
+func getProjectInformation(ctx *context.Context) (*ProjectInformation, error) {
+	projectId, err := metadata.ProjectID()
+	if err != nil {
+		return nil, err
+	}
+
+	projectNumber, err := metadata.NumericProjectID()
+	if err != nil {
+		return nil, err
+	}
+
+	return &ProjectInformation{
+		ProjectID:     projectId,
+		ProjectNumber: projectNumber,
+	}, nil
 }

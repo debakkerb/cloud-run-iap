@@ -77,3 +77,9 @@ variable "iap_secret_manager_client_id" {
   type        = string
   default     = "cr-iap-client-name"
 }
+
+variable "image_tag" {
+  description = "Normally, a script runs to retrieve the current Git tag.  Use this variable to override that behaviour and define the image tag yourself"
+  type        = string
+  default     = null
+}

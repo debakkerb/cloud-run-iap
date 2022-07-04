@@ -24,6 +24,10 @@ locals {
       values              = null
     }
   } : {}
+
+  cloud_run_identity_permissions = [
+    "roles/compute.viewer"
+  ]
 }
 
 module "project" {
@@ -48,6 +52,13 @@ resource "google_service_account" "cloud_run_identity" {
   project      = module.project.project_id
   account_id   = "cr-demo-id"
   display_name = "Cloud Run Demo App Identity"
+}
+
+resource "google_project_iam_member" "cloud_run_identity_permissions" {
+  for_each = toset(local.cloud_run_identity_permissions)
+  project  = module.project.project_id
+  member   = "serviceAccount:${google_service_account.cloud_run_identity.email}"
+  role     = each.value
 }
 
 resource "google_artifact_registry_repository" "default" {

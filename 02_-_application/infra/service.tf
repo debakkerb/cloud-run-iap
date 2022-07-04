@@ -44,16 +44,6 @@ resource "google_cloud_run_service" "cr_iap_demo" {
             }
           }
         }
-
-        env {
-          name  = "PROJECT_ID"
-          value = local.project_id
-        }
-
-        env {
-          name  = "PROJECT_NUMBER"
-          value = local.project_number
-        }
       }
     }
   }
