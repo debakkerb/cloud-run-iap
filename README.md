@@ -1,6 +1,5 @@
 # Cloud Run Demo
 
-
 **DISCLAIMER**
 
 **Use this code base at your own risk.  This is a small demo application that showcases some features on Google Cloud.  This is NOT a production ready application and shouldn't be used as such.**
@@ -69,8 +68,10 @@ terraform apply -auto-approve
 It will take a while to expose the domain on the SSL certificate that is exposed for the domain that was provided in the previous step.  It can take up to an hour before the SSL certificate is provisioned, so until then you will receive errors in Chrome related to an incorrect SSL certificate being provided.  You can check the status of the SSL certificate by running the following command (`jq` has to be installed):
 
 ```shell
-$(terraform show -json | jq -r .values.outputs.check_ssl_cert_status.value)
+terraform show -json | jq -r .values.outputs.check_ssl_cert_status.value
 ```
 
-Additionally, you also have to update the DNS records on your domain, to link the subdomain, as configured in the `domain`-variable, to the external IP address of the Load Balancer.
-
+Additionally, you also have to update the DNS records on your domain, to link the subdomain, as configured in the `domain`-variable, to the external IP address of the Load Balancer.  You can do this by adding an A-record on your DNS domain and point it to the external IP address that was created by the Terraform code.  You can get the value by running the following command:
+```shell
+terraform show -json | jq -r .values.outputs.load_balancer_address.value
+```
