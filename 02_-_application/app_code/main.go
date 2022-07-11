@@ -48,7 +48,6 @@ func main() {
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
-
 	ctx := context.Background()
 	projectInformation, err := getProjectInformation(&ctx)
 	if err != nil {
