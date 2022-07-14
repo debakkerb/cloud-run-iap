@@ -25,7 +25,7 @@ resource "google_cloud_run_service" "cr_iap_demo" {
     spec {
       service_account_name = local.cloud_run_service_account
       containers {
-        image = "${local.full_image_name}:${local.image_tag}"
+        image = local.full_image_name
         env {
           name = "CLIENT_ID"
           value_from {

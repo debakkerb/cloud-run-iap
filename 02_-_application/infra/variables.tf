@@ -83,3 +83,9 @@ variable "image_tag" {
   type        = string
   default     = null
 }
+
+variable "custom_image_name" {
+  description = "If you want to deploy a custom image name, as opposed to the one created in the 02_-_application/app_code folder, pass in a variable here.  This should be the fully qualified name in artifact registry, incl. the domain `REGION-docker.pkg.dev/PROJECT_ID/ARTIFACT_REGISTRY_REPO_NAME/IMAGE_NAME:TAG"
+  type        = string
+  default     = null
+}

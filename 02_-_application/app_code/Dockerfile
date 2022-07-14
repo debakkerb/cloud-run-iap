@@ -20,7 +20,7 @@ COPY go.* ./
 
 RUN go mod download
 
-ADD .. ./
+ADD ./ ./
 
 RUN go build -v -o server
 
