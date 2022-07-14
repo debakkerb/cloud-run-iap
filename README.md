@@ -9,7 +9,6 @@ The purpose of this demo is to showcase running a Cloud Run application, protect
 ## Table of Content
 * [Installation](#installation)
 * [Remove all resources](#destroy)
-* [Development](#development)
 * [Custom Image](#custom-image)
 * [Application Updates](#application-updates)
 
